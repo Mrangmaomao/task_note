@@ -1,0 +1,23 @@
+{
+  "name": "task_note",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mrangmaomao/task_note.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mrangmaomao/task_note/issues"
+  },
+  "homepage": "https://github.com/Mrangmaomao/task_note#readme",
+  "dependencies": {
+    "loadsh": "0.0.4"
+  }
+}
