@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "flow": "flow",
+    "build": "flow-remove-types src/ -d lib/",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -18,6 +21,16 @@
   },
   "homepage": "https://github.com/Mrangmaomao/task_note#readme",
   "dependencies": {
-    "loadsh": "0.0.4"
+    "flow": "^0.2.3",
+    "flow-remove-types": "^2.138.0",
+    "init": "^0.1.2",
+    "loadsh": "0.0.4",
+    "typescript": "^4.1.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.9",
+    "@babel/preset-flow": "^7.12.1",
+    "flow-bin": "^0.138.0"
   }
 }
