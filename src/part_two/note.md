@@ -1,116 +1,54 @@
-### es6
-弱类型问题：
-    1.必须等待运行阶段才会抛出异常
-    2. 加法运算，
-### 强类型优势：
-    1. 语法阶段就会出错
-### flow 插件 
-    mixed 和 any 的类型
-        any 弱类型
-        mixed 强类型
-    // https:www.saltycrane.com/cheat-sheets/flow-type/latest
-    // https://github.com/facebook/flow/blob/master/lib/core.js
-    // https://github.com/facebook/flow/blob/master/lib/dom.js
-    // https://github.com/facebook/flow/blob/master/lib/bom.js
-    // https://github.com/facebook/flow/blob/master/lib/cssom.js
-    // https://github.com/facebook/flow/blob/master/lib/node.js
-### TYPESCRIPT
-    - 原型数据类型
-        string 
-        number
-        boolean
-        void // 只能存放null or undefined ，严格模式下只能是 undefined
-        null
-        undefined
-        symbol
 
-    - 引入标准型库
-        tsconfig.json 
-             "lib": ["es2015", "ES2016","DOM","ES2017"]
+### 简单题
+1. 谈谈你对工程化的初步认识，结合你之前遇到过的问题说出三个以上工程化能够解决问题或者带来的价值
 
-    - 作用域问题
-        export
-    - object    
-        泛指所有的c语言对象
-    - 数组类型
-        const arr1: Array<number> = [1, 2, 3];
-        const arr2: number[]  = [1, 2, 3]
-        function(arg: number[]){}
-    - 元组类型
-        const tuple: [number, string] = [18, 'zce']
-    - 枚举 enum
+    - 前端工程化是对整个前端代码进行系统化，模块化，规范化。解决了，规范代码风格，提高代码编码速度，测试，维护阶段的生产效率。
+2. 你认为脚手架除了我们创建项目结构，还有什么更深的意义
+    - 把脚手架例举为机器，程序员也可以指挥机器做最基础的事情了，脚手架可根据项目的实际情况来反复使用。为前端模块化，开发自动化，代码自动部署垫下良好的基础。
+### 编程题
+1. 概述脚手架实现的过程，并使用nodejs完成一个自定义的小型脚手架工具
+    - 准备工作：
+      1. 明确脚手架所需要的功能 ， 含 templates 里所有的文件
+      2. 在脚手架中安装 ejs 模版插件，引入 inquirer 插件
+      3. 将ejs所需要的变量写入templates相应的文件夹里面，例如 name
+      4. 在package.json里面添入一行 lib，指向脚手架的js名字
+    - 开发过程
+      1. 利用inquirer插件的prompt进行对用户进行询问，例如文件名
+      2. 取得答案之后，再去取得templates中的模版文件，进行遍历，
+        1.  使用ejs.renderfile将答案替换ejs的变量名，
+        2. 使用nodejs的模块fs.writefilesync 将结果写入目标文件
+
+    - 测试过程
+        1. 先使用本地测试，将当前文件进行yarn link到全局
+        2. 创建一个新文件，尝试使用脚手架进行搭建一个新的文件
+    - 部署过程
+        1. 发包到npm publish
+2. 尝试使用gulp完成项目的自动化构建
+    - 准备工作
+        1. 准备所需要的插件
+            输出带有颜色 gulp-util
+            压缩js gulp-uglify
+            css gulp-less gulp-autoprefixer gulp-minify-css 
+            压缩图片 gulp-imagemin
+            监听文件 gulp-watch-path
+            调试 gulp-sourcemaps
+    - 开发工作
+        1. 使用async的异步模式，将所准备的工作时的插件引入，
+        2. 因为gulp是流的方式，读入 -》 更改 -》写入，所以在创建task的时候使用pipe需要一步一步的
+        2. 将公共的css与js合并成一个文件
+        3. 使用uglify进行压缩css或者js
+        4. 在写入文件之前先清除原来目录下的文件
+        5. 可使用maps来调试错误
         ```
-            enum PostStatus {
-                Draft = 0,
-                Unpublished = 1
-            }
-        ```
-    - 常量枚举
-        ```
-        const enum PostStatus {
-            Draft = 0,
-            Unpublished = 1
-        }
-        ```
-    > 函数类型
-        rest
-    - 任意类型
-     any 
-    - 隐式类型判断
-        let age = 18
-        // age ='aaa'
-        let age1;
-        age1 = 'aaa';
-        age1 = 180; 
-    - 类型断言
-        const num = res as number
-        const num1 = <number>res // jsx 下不能使用
-    - interface 接口
-        ```
-            interface Post{
-                title: string
-                readonly content:string  // readonly//
-                age?: number
-            }
-            function printPost(post: Post){
-                console.log(post.title);
-                console.log(post.content)
-            }
-            printPost({
-                title: 'aaa',
-                content: 'aaa',
-                // age:18
+            gulp.task('uglifyjs', function () {
+                gulp.src('src/js/**/*.js')
+                    .pipe(uglify())
+                    .pipe(gulp.dest('dist/js'))
             })
-            // 任意string成员
-            interface cache{
-                [prop:string]: string
-            }
         ```
-### javascript 性能优化
-    1. 内存管理
-    2. 垃圾回收
-        就是 中内存管理是自动的
-        对象不再被引用时是垃圾
-
-    3. 可达对象
-        可以访问到的对象是可达对象（引用，作用域）
-    - gc算法
-      gc是一种机制，垃圾回收器完成具体的工作，工作的内容就是查找垃圾释放空间，回收空间
-      算法就是工作时查找和回收所遵循的规则
-        1. 引用记数
-            核心思想： 设置引用数，判读当前引用数是否为0，引用字数为0时立即回收。
-            优：
-                1.发现垃圾时立即回收
-                2.最大限度减少程序暂停
-            缺
-                1.无法回收循环引用的对象
-                2.时间开销大
-        标记清除
-            核心思想： 分标记清除二哥阶段完成，遍历所有对象找标记活动对象，遍历所有对象清除没有标记对象，回收相应的空间
-            优： 可回收循环引用的对象
-            缺
-                空间碎片化，不能使空间得到最大化的使用
-        标记整理
-            优：
-            
-        分代回收
+    - 测试过程
+        1. 监听文件 gulp.watch
+        2. 启动开发环境的server 
+        3. 将其写入脚手架中，再测试
+    - 部署过程
+        1. 发包到npm publish
